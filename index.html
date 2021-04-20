@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Lucian's Showcase</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css">
+
+        <!-- Here you can link your fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Lora:400,700|Roboto+Slab:400,700&display=swap"
+              rel="stylesheet">
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+
+    <body>
+        <header>
+            <div class="logo">
+                <a href="#home">
+                    <img style="width:50%" src="img/logo-transp.png" alt="Top left corner logo">
+                </a>
+            </div>
+
+            <button class="nav-toggle" aria-label="toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+            <nav class="nav">
+                <ul class="nav__list">
+                    <li class="nav__item"><a href="#home" class="nav__link">Home</a></li>
+                    <li class="nav__item"><a href="#services" class="nav__link">My Services</a></li>
+                    <li class="nav__item"><a href="#about" class="nav__link">About me</a></li>
+                    <li class="nav__item"><a href="#work" class="nav__link">My Work</a></li>
+                    <li class="nav__item"><a href="#contact" class="nav__link">Contact me</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Introduction -->
+        <section class="intro" id="home">
+            <h1 class="section__title section__title--intro">
+                Hi, I am <strong>Lucian</strong>
+            </h1>
+            <p class="section__subtitle section__subtitle--intro">ML master engineer</p>
+            <img src="img/In_red_cropped.jpg" alt="" class="intro__img">
+        </section>
+
+        <!-- My services -->
+        <section class="my-services" id="services">
+            <h2 class="section__title section__title--services">What I do</h2>
+            <div class="services">
+                <div class="service">
+                    <h3>Data Pre-processing</h3>
+                    <p>This phase consists in formatting, cleaning and sampling the data. To gain insight, spot local
+                     patterns and explore data structure, I use visualization techniques. Based on the problem that
+                        needs solving, I create a baseline model with the right algorithm, that will provide a
+                        starting point.
+                    </p>
+                </div> <!-- / service -->
+
+                <div class="service">
+                    <h3>Feature Engineering</h3>
+                    <p>The second phase of a project consists in transforming the attributes or creating new ones,
+                        using a mix of linear and non-linear transformations, decomposition, aggregations and domain
+                        knowledge. I use a testing framework to evaluate the features and algorithms, and select the
+                        ones that are most useful for our model.
+                    </p>
+                </div> <!-- / service -->
+
+                <div class="service">
+                    <h3>Model Tuning</h3>
+                    <p>In this phase, I focus on hyper-parameters tuning for the best performing models, test the
+                        individual performance and the performance of an ensemble of algorithms. After that, is time to
+                        launch the model in production by adapting it to an operational setting.
+                    </p>
+                </div> <!-- / service -->
+            </div> <!-- / services -->
+
+            <a href="#work" class="btn">My Work</a>
+        </section>
+
+        <!-- About me -->
+        <section class="about-me" id="about">
+            <h2 class="section__title section__title--about">Who I am</h2>
+            <p class="section__subtitle section__subtitle--about"></p>
+
+            <div class="about--me__body">
+                <p>My favorite thing is to find a good story, from a book, a movie, a video game or from data. My
+                    passion is to find the Whys and the Hows in economics, business and technology. Working with
+                    data provides insight into patterns and correlations that answer those questions. My desire
+                    to discover the whole story from the data lead me to getting certified in Machine
+                    Learning.</p>
+                <p>When I feel I've spent too much time in front of the computer, I go biking, hiking
+                    or snowboarding. But the thing I love the most when it comes to recharging my batteries, is
+                    to travel the world with my wife.</p>
+            </div>
+
+            <img src="img/Hiking_Yellowstone_cropped.jpg" alt="" class="about-me__img">
+        </section>
+
+        <!-- My Work -->
+        <section class="my-work" id="work">
+            <h2 class="section__title section__title--work">My Work</h2>
+            <p class="section__subtitle section__subtitle--work">A selection of my work</p>
+
+            <div class="portfolio">
+                <!-- item 1 -->
+                <a href="kiva.html" class="portfolio--item">
+                    <img src="img/Kiva/Crowdfunding%20-%20phone%20-%20white.jpg" alt="" class="portfolio__img">
+                </a>
+                <!-- item 2 -->
+                <a href="avito.html" class="portfolio--item">
+                    <img src="img/Avito/Avito_home_logo_1200x800.jpg" alt="" class="portfolio__img">
+                </a>
+                <!-- item 3 -->
+                <a href="home_credit.html" class="portfolio--item">
+                    <img src="img/HomeCredit/Credit_score_smileys.jpg" alt="" class="portfolio__img">
+                </a>
+            </div>
+        </section>
+
+
+        <!-- Footer fontawesome.com <i class="fas fa-envelope"></i> -->
+
+<!--        <footer class="footer">
+            <a href="mailto:luc@radiclai.com" class="footer__link">Contact me</a>
+            <ul class="social-list">
+                <li class="social-list__item">
+                    <a class="social-list__link" href="https://facebook.com">
+                        <i class="fab fa-kaggle"></i>
+                    </a>
+                </li>
+                <li class="social-list__item">
+                    <a class="social-list__link" href="https://github.com">
+                        <i class="fab fa-github-square"></i>
+                    </a>
+                </li>
+                <li class="social-list__item">
+                    <a class="social-list__link" href="https://linkedin.com">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </li>
+                <li class="social-list__item">
+                    <a class="social-list__link" href="https://reddit.com">
+                        <i class="fab fa-reddit-square"></i>
+                    </a>
+                </li>
+            </ul>
+            <p>Designed by Kevin Powell</p>
+        </footer>
+-->
+        <section class="contact" id="contact">
+            <div class="container">
+
+                <div class="contact-left">
+                    <a href="mailto:luc@radiclai.com" class="contact__link">Contact me</a>
+                    <p>Feel free to contact me if you want to discuss your project. Check out machine learning
+                        competitions I participated in, my repository or my profile below.</p>
+
+                    <ul class="social-list">
+                         <li class="social-list__item">
+                            <a class="social-list__link" href="https://facebook.com">
+                                <i class="fab fa-kaggle"></i>
+                            </a>
+                        </li>
+                        <li class="social-list__item">
+                            <a class="social-list__link" href="https://github.com">
+                                <i class="fab fa-github-square"></i>
+                            </a>
+                        </li>
+                        <li class="social-list__item">
+                            <a class="social-list__link" href="https://linkedin.com">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="contact-right">
+                    <img src="img/what_i_do.jpg" alt="">
+                </div>
+
+            </div>
+        </section>
+
+        <script src="js/index.js"></script>
+
+    </body>
+
+</html>
+
+<!-- My location in Chicago
+                    <iframe frameborder="0" width="100%" height="100%"
+                            src=<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d49819.20371443204!2d-87.69155802974714!3d41.94935518834841!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s86HJX84P%2B66!5e0!3m2!1sen!2sus!4v1618088555188!5m2!1sen!2sus" style="border:0" allowfullscreen>
+                    </iframe>
+-->

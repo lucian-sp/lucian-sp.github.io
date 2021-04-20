@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:font-style="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Regression model</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css">
+
+        <!-- Here you can link your fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Lora:400,700|Roboto+Slab:400,700&
+        display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+
+    <body>
+        <header>
+            <div class="logo">
+                <a href="index.html">
+                    <img style="width:50%" src="img/logo-transp.png" alt="Top left corner logo">
+                </a>
+            </div>
+            <button class="nav-toggle" aria-label="toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+            <nav class="nav">
+                <ul class="nav__list">
+                    <li class="nav__item"><a href="index.html" class="nav__link">Home</a></li>
+                    <li class="nav__item"><a href="index.html#services" class="nav__link">My Services</a></li>
+                    <li class="nav__item"><a href="index.html#about" class="nav__link">About me</a></li>
+                    <li class="nav__item"><a href="index.html#work" class="nav__link">My Work</a></li>
+                    <li class="nav__item"><a href="index.html#contact" class="nav__link">Contact me</a></li>
+                </ul>
+            </nav>
+        </header>
+
+       <!-- Introduction -->
+        <section class="intro" id="home">
+            <h1 class="section__title section__title--intro">
+                Classified ads <strong>Deal prediction</strong>
+            </h1>
+            <p class="section__subtitle section__subtitle--intro"><strong>LGBM and Neural Network models</strong></p>
+            <img src="img/Avito/Regression_analysis.jpg" alt="" class="intro__img">
+        </section>
+<!------------------------------------- PROJECT ------------------------------------------------------------>
+        <div class="portfolio-item-individual">
+            <h3>Intro</h3>
+            <p>In this project, I worked with one of the largest classified
+                advertisements
+                  website with sections devoted to general goods
+                      for sale, jobs, real estate, personals, cars for sale, and services.</p>
+
+            <h3>Task</h3>
+            <p>The challenge was to predict demand for an online advertisement based on its full description (title,
+                description, images, etc.), its context (geographically where it was posted, similar ads already posted) and historical demand for similar ads in similar contexts.</p>
+
+            <h3>Tools and Methodology</h3>
+            <p>The data set contains text, pictures and numerical values. </p>
+
+            <h3>Insights</h3>
+            <ol type="1">
+                <li>The available historic data was around 2 million ads. From 1.5 mil ads in train data, almost 1
+                    mil had a probability of 0. So no deal was struck between buyer and seller.</li>
+                <li>46.4% of the ads are for personal items, 11.9 for home and garden and 11.5 for electronics. Most of the ads in personal ads are about adult clothes, shoes and accessories, children’t clothes and footware and toys.</li>
+                <li>Over 70% of the ads are posted by individuals and the rest by small businesses.</li>
+                <li>Applying Tf-IDF on the title and description columns and doing singular valued decomposition on
+                    the features shows which one captures the most variation in the data.</li>
+            </ol>
+
+            <h3>Prediction models</h3>
+            <p style="text-decoration: underline" align="center"><strong>Gradient Boosting Regressor model</strong></p>
+            <p>For this model I used LightGBM, KFold for gradient boosting, SkLearn, SciPy and NLTK for
+                TF-IDF and VGG16 from Keras to extract features from the images provided.</p>
+            <p>Feature engineering: log on price and filling the missing values; extracting day and week from the date. Filled  the image column with a negative value for posts with missing images. Label encoded categorical variables. Cleaned the title and description columns and counted the number of words; vectorized title with count and description with tf-idf. Combine dense features with sparse text bag of words features.</p>
+            <p>Aggregated features: on average, how many times an ad for an item was posted, average number of days
+                the ad was active before being re-posted or deleted and how many items the user put up for sale.</p>
+            <p>Resulted in a root mean squared error of 0.22669. Here are the most important features for the model:</p>
+            <img src="img/Avito/Avito_LGBM_feat_imp_general.png" alt="">
+
+            <p style="text-decoration: underline" align="center"><strong>Convolutional Neural Network model</strong></p>
+            <p>With Tensorflow and Keras, I built a Bidirectional Gated Recurrent Unit neural network (BiGRU CNN)
+                that will use word vectors for russian text from <a
+                        href="https://fasttext.cc/docs/en/crawl-vectors.html" target="_blank">fastText</a>.</p>
+            <p>In the preprocessing step I filled columns with missing values, with a place holder or with the mean (for continuous variables).
+Used the Tokenizer from Keras library on categorical variables and normalized the distribution by taking the logarithm of the numeric variables.
+Feature engineering: extracted the week from the activation data column and transformed classification codes into integers. Join ttile and description into one text column; tokenized the text column with a maximum of 100k words; grabbed the first 100 tokens for each row. Used the fast text common crawl for Russian to create an embedding matrix for the words found in the ads. For every word available in the data set the corresponding 300 dimension vector is added to the embedding matrix.
+</p>
+            <p>Model design:</p>
+            <p>Initialize the inputs for all the variables. The word sequences for the text containing title and description have a length of 100 and other variables 1.
+For the categorical variables, I generated an embedding layer, to turn positive idexes into dense vectors of fixed size, then applied a one-dimensional spatial dropout layer, to help emphasize independence between feature maps, and flatten the results.
+For the text variables, used an embedding layer, applied a spatial dropout layer and two transformations:
+</p>
+            <ul>
+                <li>In the first one, used a Bidirectional Gated Recurrent Unit to maximize performance as it can choose different implementations based on available hardware and constraints, then a one dimensional convolutional layer (Relu activated) to produce a tensor of outputs. Applied a global max and a global average pooling layer for one dimension data, to downsample the tensor by taking the maximum and average value over the time dimension.</li>
+                <li>In the second one, I applied a one dimensional convolutional layer (Relu activated) twice, to produce a tensor of outputs. After that it went through the same downsampleing procedure described above with a global max and a global average pooling layer.</li>
+            </ul>
+            <p>Applied batch normalization on concatenated text, categorical and numerical features and two densely-connected neural network layers with Relu activation function. Re-added the numerical features to the result and applied another dense layer, relu activated and, in order to get the predictions, I used another dense layer, one dimensional, activated by a sigmoid function.</p>
+            <p>The model uses Adam optimizer and root mean squared error as the loss metric.  The model looks like this:</p>
+            <img src="img/Avito/Avito%20BiGRU%20CNN%20model.png" alt="">
+            <p>My best result with this model was a RMSE value of 0.22832</p>
+        </div>
+
+<!------------------ Footer ------------------------------>
+        <footer class="footer">
+            <a href="mailto:luc@radiclai.com" class="footer__link">Contact me</a>
+            <p>Feel free to contact me if you want to discuss your project. Check out machine learning competitions I
+                participated in, my repository or my profile below.</p>
+
+            <ul class="social-list">
+                 <li class="social-list__item">
+                    <a class="social-list__link" href="https://facebook.com">
+                        <i class="fab fa-kaggle"></i>
+                    </a>
+                </li>
+                <li class="social-list__item">
+                    <a class="social-list__link" href="https://github.com">
+                        <i class="fab fa-github-square"></i>
+                    </a>
+                </li>
+                <li class="social-list__item">
+                    <a class="social-list__link" href="https://linkedin.com">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </li>
+            </ul>
+            <p>© 2017 Lucian Perianu</p>
+        </footer>
+        <script src="js/index.js"></script>
+    </body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:font-style="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Classification model</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css">
+
+        <!-- Here you can link your fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Lora:400,700|Roboto+Slab:400,700&
+        display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+
+    <body>
+        <header>
+            <div class="logo">
+                <a href="index.html">
+                    <img style="width:50%" src="img/logo-transp.png" alt="Top left corner logo">
+                </a>
+            </div>
+            <button class="nav-toggle" aria-label="toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+            <nav class="nav">
+                <ul class="nav__list">
+                    <li class="nav__item"><a href="index.html" class="nav__link">Home</a></li>
+                    <li class="nav__item"><a href="index.html#services" class="nav__link">My Services</a></li>
+                    <li class="nav__item"><a href="index.html#about" class="nav__link">About me</a></li>
+                    <li class="nav__item"><a href="index.html#work" class="nav__link">My Work</a></li>
+                    <li class="nav__item"><a href="index.html#contact" class="nav__link">Contact me</a></li>
+                </ul>
+            </nav>
+        </header>
+
+       <!-- Introduction -->
+        <section class="intro" id="home">
+            <h1 class="section__title section__title--intro">
+                Loan Default <strong>Risk prediction</strong>
+            </h1>
+            <p
+                    class="section__subtitle section__subtitle--intro"><strong>Gradient Boosting Machines</strong></p>
+            <img src="img/HomeCredit/Loan_approved_red.png" alt="" class="intro__img">
+        </section>
+<!------------------------------------- PROJECT ------------------------------------------------------------>
+        <div class="portfolio-item-individual">
+            <h3>Intro</h3>
+            <p>This loan company strives to broaden financial inclusion for the unbanked population by providing a positive and safe borrowing experience. In order to make sure this underserved population has a positive loan experience, the company makes use of a variety of alternative data--including telco and transactional information--to predict their clients' repayment abilities.</p>
+
+            <h3>Task</h3>
+            <p>The objective is to use historical financial and socioeconomic data to predict whether or not an
+                applicant will be able to repay a loan. This is a standard supervised classification task.</p>
+
+            <h3>Tools and Methodology</h3>
+            <p>The models were evaluated on area under the ROC curve between the predicted probability and the observed
+                target. A receiver operating characteristic curve, or ROC curve, is a graphical plot that illustrates the diagnostic ability of a binary classifier system as its discrimination threshold is varied. The ROC curve is created by plotting the true positive rate (TPR) against the false positive rate (FPR) at various threshold settings.
+            The Gradient Boosting Machine (GBM) was top pick amongst machine learning models. The GBM is extremely
+                effective on structured data - where the information is in rows and columns - and medium sized
+                data sets - where there are at most a few million observations.</p>
+
+            <h3>Pre-processing</h3>
+            <ol type="1">
+                <li>Examining the distribution of target column shows an imbalanced class problem.</li>
+                <li>Most models cannot handle missing values, so we will have to either remove the rows/columns or fill these in before machine learning. From 122 columns in the data, 67 columns have missing values.
+                    That is a lot of data to discard so, I found that the best option is imputation (even though that
+                    means adding data that was not collected).</li>
+                <li>There are a number of columns in the data that are represented as integers but are really discrete variables that can only take on a limited number of features. Some of these are Boolean flags (only 1 or 0) and two columns are ordinal (ordered discrete).</li>
+                <li>For the outliers or anomalies in the data, my approach is to set them to a missing value and
+                    then fill them with the mean or the median before machine learning.</li>
+                <li>Calculating the Pearson correlation coefficient between every variable and the target, provides
+                a way to understand the data. Using a kernel density plot colored by the value of the target,
+                    brings more clarity.</li>
+            </ol>
+
+            <h3>Baseline model</h3>
+            <p>In order to build the baseline models with all the features available, I had to encode the categorical
+            variables and normalize the range of features. Used Logistic regression, Random forest and Light gradient
+            boosting machine algorithms with default settings for the base models. With the base models, I can get a
+            first sense of the most important features:
+            <img src="img/HomeCredit/Feature_importance-base_lgbm.png" alt=""></p>
+
+            <h3>Feature engineering and selection</h3>
+            <ol type="1">
+                <li>We create polynomial features and new features using domain knowledge. In the first method, we
+                    make features that are powers of existing features as well as interaction between existing features.</li>
+                <li>For the numerical features I used aggregation methods to create as many features as possible.
+                    For the categorical columns, created new features by calculating value counts of each category
+                    within each categorical variable. We can normalize the value counts by the total number of
+                    occurences for that categorical variable.
+                </li>
+                <li>Irrelevant features, highly correlated features, and missing values can prevent the model from
+                    learning and decrease generalization performance on the unseen data. The best strategies for
+                    feature selection are removing features with a correlation coefficient bigger than a specified
+                    threshold, removing features with a high percent of missing values and finding and keeping the
+                    most relevant features as revealed by a classification model.</li>
+            </ol>
+
+            <h3>Final model and hyper-parameter optimization</h3>
+            <p>The model that performed the best was a <strong>LightGBM with Stratified KFold</strong>.</p>
+            <p>In order to fine tune the settings of this model, there are several approaches: <strong>manual</strong>, when you
+                select the settings based on experience, intuition, and in some cases, is mostly guessing;
+                <strong>automated</strong>, when you use a gradient descent or Bayesian optimization to search
+            for the best ones; the <strong>grid and random search</strong> technique consists in setting up a matrix
+                of hyper-parameters values and picking up combinations to test and score on a validation data set.
+                The grid methods test all the possible combinations (which is computationally expensive and
+                inefficient), while the other one picks up random combinations.
+            </p>
+            <p> My strategy for finding the best settings for the model, was to split the data set and to use early
+                stopping. What early stopping does, is exiting the training session when the validation error does not
+                decrease for a specified number of iterations.  After feature selection, the count of variables was
+                close to 600, so I split the data into smaller data sets and tried all four approaches and then
+                averaged the scores. The Random search and Bayesian optimization parameters where scoring the
+                highest, so I applied a Random search to the full data set and used those hyper-parameters for the
+                final model.
+            </p>
+            <p>Resulted in a ROC AUC of 0.793.</p>
+            <img src="img/HomeCredit/" alt="">
+        </div>
+
+<!------------------ Footer ------------------------------>
+        <footer class="footer">
+            <a href="mailto:luc@radiclai.com" class="footer__link">Contact me</a>
+            <p>Feel free to contact me if you want to discuss your project. Check out machine learning competitions I
+                participated in, my repository or my profile below.</p>
+
+            <ul class="social-list">
+                 <li class="social-list__item">
+                    <a class="social-list__link" href="https://facebook.com">
+                        <i class="fab fa-kaggle"></i>
+                    </a>
+                </li>
+                <li class="social-list__item">
+                    <a class="social-list__link" href="https://github.com">
+                        <i class="fab fa-github-square"></i>
+                    </a>
+                </li>
+                <li class="social-list__item">
+                    <a class="social-list__link" href="https://linkedin.com">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </li>
+            </ul>
+            <p>© 2017 Lucian Perianu</p>
+        </footer>
+        <script src="js/index.js"></script>
+    </body>
+</html>
